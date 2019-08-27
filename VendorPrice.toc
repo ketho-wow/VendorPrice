@@ -1,7 +1,9 @@
 ## Interface: 11302
-## Version: 1.1.1
+## Version: @project-version@
 ## Title: Vendor Price
 ## Notes: Display the sell value of an item when not at a vendor
-## Author: Icesythe7 & Ketho
+## Author: Ketho, Icesythe7
+## X-Curse-Project-ID: 322091
+## X-WoWI-ID: 24922
 
 VendorPrice.lua
