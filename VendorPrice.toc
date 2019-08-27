@@ -1,5 +1,5 @@
 ## Interface: 11302
-## Version: 0.7
+## Version: 1.0
 ## Title: Vendor Price
 ## Notes: Display the sell value of an item when not at a vendor
 ## Author: Icesythe7 & Ketho
