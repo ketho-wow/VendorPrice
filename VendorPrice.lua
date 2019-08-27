@@ -14,6 +14,7 @@ local function SetBagItemGlow(bagId, slot)
 		end
 	end
 	if item then
+		item.NewItemTexture:SetAtlas("bags-glow-orange")
 		item.NewItemTexture:Show()
 		item.flashAnim:Play()
 		item.newitemglowAnim:Play()
@@ -27,7 +28,6 @@ local function GlowCheapestGrey()
 	for bag = 0, NUM_BAG_SLOTS do
 		for bagSlot = 1, GetContainerNumSlots(bag) do
 			local itemid = GetContainerItemID(bag, bagSlot)
-			local _, itemCount = GetContainerItemInfo(bag, bagSlot)
 			if itemid then
 				local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount,
 				itemEquipLoc, itemIcon, vendorPrice, itemClassID, itemSubClassID, bindType, expacID, itemSetID,
