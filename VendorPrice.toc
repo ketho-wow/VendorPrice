@@ -1,0 +1,6 @@
+## Interface: 11302
+## Title: Vendor Price
+## Notes: Display the sell value of an item when not at a vendor
+## Author: Icesythe7
+
+VendorPrice.lua
