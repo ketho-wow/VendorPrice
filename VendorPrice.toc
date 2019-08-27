@@ -1,7 +1,7 @@
 ## Interface: 11302
-## Version: 0.6
+## Version: 0.7
 ## Title: Vendor Price
 ## Notes: Display the sell value of an item when not at a vendor
-## Author: Icesythe7
+## Author: Icesythe7 & Ketho
 
 VendorPrice.lua
