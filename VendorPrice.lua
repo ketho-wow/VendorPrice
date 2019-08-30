@@ -85,7 +85,17 @@ local function SetGameToolTipPrice(tt)
 					local object = container:GetObjectType()
 					local count
 					if object == "Button" then -- ContainerFrameItem, QuestInfoItem, PaperDollItem
-						count = container.count
+						if IsAddOnLoaded("Bagnon") then -- Bagnon support
+							if container.info then
+								count = container.info.count
+							elseif container:GetParent().info then
+								count = container:GetParent().info.count
+							else
+								count = container.count
+							end
+						else
+							count = container.count
+						end
 					elseif object == "CheckButton" then -- MailItemButton or ActionButton
 						count = container.count or tonumber(container.Count:GetText())
 					end
