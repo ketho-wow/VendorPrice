@@ -77,12 +77,11 @@ local function SetGameToolTipPrice(tt)
 	if container and container.GetName then -- Auctionator sanity check
 		local name = container:GetName()
 		-- price is already shown at vendor for bag items
-		if not MerchantFrame:IsShown() or name:find("Character") or name:find("TradeSkill") then
+		if name and (not MerchantFrame:IsShown() or name:find("Character") or name:find("TradeSkill")) then
 			local itemLink = select(2, tt:GetItem())
 			if itemLink then
 				local itemSellPrice = select(11, GetItemInfo(itemLink))
 				if itemSellPrice and itemSellPrice > 0 then
-					local name = container:GetName()
 					local object = container:GetObjectType()
 					local count
 					if object == "Button" then -- ContainerFrameItem, QuestInfoItem, PaperDollItem
