@@ -74,10 +74,10 @@ end
 
 local function SetGameToolTipPrice(tt)
 	local container = GetMouseFocus()
-	if container and container.GetName then -- Auctionator sanity check
+	if container and (container.GetName or container.info) then -- Auctionator sanity check with Bagnon support
 		local name = container:GetName()
 		-- price is already shown at vendor for bag items
-		if name and (not MerchantFrame:IsShown() or name:find("Character") or name:find("TradeSkill")) then
+		if not MerchantFrame:IsShown() or (name and (name:find("Character") or name:find("TradeSkill"))) then
 			local itemLink = select(2, tt:GetItem())
 			if itemLink then
 				local itemSellPrice = select(11, GetItemInfo(itemLink))
