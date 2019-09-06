@@ -16,9 +16,7 @@ local function SetPrice(tt, count, item)
 			local money = sellPrice * count
 			if money > 0 then
 				if IsShiftKeyDown() and count > 1 then
-					local align = count >= 10 and "  " or ""
-					SetTooltipMoney(tt, sellPrice, nil, SELL_PRICE_TEXT.." |cffAAAAFFx1|r"..align)
-					SetTooltipMoney(tt, money, nil, SELL_PRICE_TEXT..format(" |cffAAAAFFx%d|r", count))
+					SetTooltipMoney(tt, sellPrice, nil, SELL_PRICE_TEXT.." |cffAAAAFFx1|r")
 				else
 					SetTooltipMoney(tt, money, nil, SELL_PRICE_TEXT)
 				end
@@ -140,14 +138,6 @@ local function OnEvent(self, event, isInitialLogin, isReloadingUi)
 					end
 				end
 			end)
-		end
-		-- disable Auctionator vendor price in tooltips
-		if Auctionator then
-			if AUCTIONATOR_V_TIPS == 1 then
-				AUCTIONATOR_V_TIPS = 0
-			end
-			local option = ATR_tipsVendorOpt_CB_Text
-			option:SetText(option:GetText().." |cffFFFF00(Disabled by Vendor Price)|r")
 		end
 	end
 end
