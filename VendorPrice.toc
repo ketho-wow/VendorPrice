@@ -1,7 +1,7 @@
 ## Interface: 11302
 ## Version: @project-version@
 ## Title: Vendor Price
-## Notes: Display the sell value of an item when not at a vendor
+## Notes: Displays the price of an item when not at a vendor
 ## Author: Ketho, Icesythe7
 ## X-Curse-Project-ID: 322091
 ## X-WoWI-ID: 24922
