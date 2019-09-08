@@ -4,7 +4,9 @@ local COUNT_TEXT = " |cffAAAAFFx%d|r"
 local function ShouldShowPrice(tt)
 	if MerchantFrame:IsShown() then
 		local name = tt:GetOwner():GetName()
-		return name:find("Character") or name:find("TradeSkill")
+		if name then -- /bagnon bank sanity check
+			return name:find("Character") or name:find("TradeSkill")
+		end
 	end
 	return true
 end
