@@ -4,7 +4,7 @@ local COUNT_TEXT = " |cffAAAAFFx%d|r"
 local function ShouldShowPrice(tt)
 	if MerchantFrame:IsShown() then
 		local name = tt:GetOwner():GetName()
-		if name then -- /bagnon bank sanity check
+		if name then -- bagnon sanity check
 			return name:find("Character") or name:find("TradeSkill")
 		end
 	end
@@ -61,7 +61,10 @@ local SetItem = {
 		local itemLink = GetCraftReagentItemLink(index, reagent)
 		SetPrice(tt, count, itemLink)
 	end,
-	--SetHyperlink -- used by most addons but cant get count this way
+	SetCraftSpell = function(tt)
+		SetPrice(tt)
+	end,
+	--SetHyperlink -- item information is not readily available
 	SetInboxItem = function(tt, messageIndex, attachIndex)
 		local count, itemID
 		if attachIndex then
@@ -118,11 +121,10 @@ local SetItem = {
 	end,
 }
 
-for name, func in pairs(SetItem) do
-	hooksecurefunc(GameTooltip, name, func)
+for method, func in pairs(SetItem) do
+	hooksecurefunc(GameTooltip, method, func)
 end
 
--- item information is not readily available on tt:SetHyperlink()
 ItemRefTooltip:HookScript("OnTooltipSetItem", function(tt)
 	local item = select(2, tt:GetItem())
 	if item then
@@ -172,7 +174,7 @@ GameTooltip:HookScript("OnTooltipSetItem", function(tt)
 			tt.shownMoneyFrames = nil
 			SetPrice(tt, info.count)
 		end
-	-- do a lazy check for any chat windows that are docked to ChatFrame1
+	-- lazy check for any chat windows that are docked to ChatFrame1
 	elseif DEFAULT_CHAT_FRAME:IsMouseOver() then -- Chatter, Prat
 		SetPrice(tt)
 	end
