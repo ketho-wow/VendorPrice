@@ -23,6 +23,7 @@ local function SetPrice(tt, count, item)
 		if item then
 			local sellPrice = select(11, GetItemInfo(item))
 			if sellPrice and sellPrice > 0 then
+				tt.shownMoneyFrames = nil -- OnTooltipSetItem fires twice for recipes
 				if IsShiftKeyDown() and count > 1 then
 					SetTooltipMoney(tt, sellPrice, nil, SELL_PRICE_TEXT..GetAmountString(1, true))
 				else
@@ -130,7 +131,7 @@ ItemRefTooltip:HookScript("OnTooltipSetItem", function(tt)
 	if item then
 		local sellPrice = select(11, GetItemInfo(item))
 		if sellPrice and sellPrice > 0 then
-			tt.shownMoneyFrames = nil -- OnTooltipSetItem fires twice for recipes
+			tt.shownMoneyFrames = nil
 			SetTooltipMoney(tt, sellPrice, nil, SELL_PRICE_TEXT)
 		end
 	end
@@ -171,7 +172,6 @@ GameTooltip:HookScript("OnTooltipSetItem", function(tt)
 	elseif Bagnon and IsShown(BagnonFramebank) then
 		local info = tt:GetOwner():GetParent().info
 		if info then -- /bagnon bank
-			tt.shownMoneyFrames = nil
 			SetPrice(tt, info.count)
 		end
 	-- lazy check for any chat windows that are docked to ChatFrame1
