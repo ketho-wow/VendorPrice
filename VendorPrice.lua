@@ -16,14 +16,22 @@ local function GetAmountString(count, isShift)
 	return (count > 1 or isShift) and COUNT_TEXT:format(count)..spacing or ""
 end
 
-local function SetPrice(tt, count, item)
+-- OnTooltipSetItem fires twice for recipes
+local function CheckRecipe(tt, classID, isBagItem)
+	if classID == LE_ITEM_CLASS_RECIPE and not isBagItem then
+		tt.isFirstMoneyLine = not tt.isFirstMoneyLine
+		return not tt.isFirstMoneyLine
+	end
+	return true
+end
+
+local function SetPrice(tt, count, item, isBagItem)
 	if ShouldShowPrice(tt) then
 		count = count or 1
 		item = item or select(2, tt:GetItem())
 		if item then
-			local sellPrice = select(11, GetItemInfo(item))
-			if sellPrice and sellPrice > 0 then
-				tt.shownMoneyFrames = nil -- OnTooltipSetItem fires twice for recipes
+			local sellPrice, classID = select(11, GetItemInfo(item))
+			if sellPrice and sellPrice > 0 and CheckRecipe(tt, classID, isBagItem) then
 				if IsShiftKeyDown() and count > 1 then
 					SetTooltipMoney(tt, sellPrice, nil, SELL_PRICE_TEXT..GetAmountString(1, true))
 				else
@@ -51,7 +59,7 @@ local SetItem = {
 	end,
 	SetBagItem = function(tt, bag, slot)
 		local _, count = GetContainerItemInfo(bag, slot)
-		SetPrice(tt, count)
+		SetPrice(tt, count, nil, true)
 	end,
 	--SetBagItemChild
 	--SetBuybackItem -- already shown
@@ -129,9 +137,8 @@ end
 ItemRefTooltip:HookScript("OnTooltipSetItem", function(tt)
 	local item = select(2, tt:GetItem())
 	if item then
-		local sellPrice = select(11, GetItemInfo(item))
-		if sellPrice and sellPrice > 0 then
-			tt.shownMoneyFrames = nil
+		local sellPrice, classID = select(11, GetItemInfo(item))
+		if sellPrice and sellPrice > 0 and CheckRecipe(tt, classID) then
 			SetTooltipMoney(tt, sellPrice, nil, SELL_PRICE_TEXT)
 		end
 	end
