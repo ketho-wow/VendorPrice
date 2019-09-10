@@ -169,6 +169,14 @@ GameTooltip:HookScript("OnTooltipSetItem", function(tt)
 				break
 			end
 		end
+	elseif AuctionFaster and IsShown(AuctionFrame) and AuctionFrame.selectedTab >= 4 then
+		local count
+		if AuctionFrame.selectedTab == 4 then
+			count = tt:GetOwner().item.count
+		elseif AuctionFrame.selectedTab == 5 then
+			count = AuctionFaster.hoverRowData.count -- provided by AuctionFaster
+		end
+		SetPrice(tt, count)
 	elseif Bagnon and IsShown(BagnonFramebank) then
 		local info = tt:GetOwner():GetParent().info
 		if info then -- /bagnon bank
