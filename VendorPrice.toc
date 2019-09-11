@@ -7,3 +7,4 @@
 ## X-WoWI-ID: 24922
 
 VendorPrice.lua
+Compat.lua
