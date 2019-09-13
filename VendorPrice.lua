@@ -4,6 +4,14 @@ local VP = VendorPrice
 local SELL_PRICE_TEXT = format("%s:", SELL_PRICE)
 local COUNT_TEXT = " |cffAAAAFFx%d|r"
 
+local CharacterBags = {}
+for i = CONTAINER_BAG_OFFSET+1, 23 do
+	CharacterBags[i] = true
+end
+for i = 72, 77 do
+	CharacterBags[i] = true
+end
+
 local function ShouldShowPrice(tt)
 	if MerchantFrame:IsShown() then
 		local name = tt:GetOwner():GetName()
@@ -87,8 +95,11 @@ local SetItem = {
 		VP:SetPrice(tt, count, itemID)
 	end,
 	SetInventoryItem = function(tt, unit, slot)
-		local count = GetInventoryItemCount(unit, slot)
-		VP:SetPrice(tt, count == 0 and 1 or count) -- equipped bags return 0
+		local count
+		if not CharacterBags[slot] then
+			count = GetInventoryItemCount(unit, slot)
+		end
+		VP:SetPrice(tt, count)
 	end,
 	--SetInventoryItemByID
 	--SetItemByID
