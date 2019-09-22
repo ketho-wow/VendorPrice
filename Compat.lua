@@ -39,7 +39,8 @@ GameTooltip:HookScript("OnTooltipSetItem", function(tt)
 	elseif AuctionFaster and IsShown(AuctionFrame) and AuctionFrame.selectedTab >= 4 then
 		local count
 		if AuctionFrame.selectedTab == 4 then
-			count = tt:GetOwner().item.count
+			local item = tt:GetOwner().item
+			count = item and item.count
 		elseif AuctionFrame.selectedTab == 5 then
 			local hoverRowData = AuctionFaster.hoverRowData
 			count = hoverRowData and hoverRowData.count -- provided by AuctionFaster

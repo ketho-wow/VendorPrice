@@ -8,7 +8,7 @@ local CharacterBags = {}
 for i = CONTAINER_BAG_OFFSET+1, 23 do
 	CharacterBags[i] = true
 end
-for i = 72, 77 do
+for i = 72, 77 do -- bank bags
 	CharacterBags[i] = true
 end
 
