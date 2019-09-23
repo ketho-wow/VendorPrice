@@ -157,3 +157,4 @@ ItemRefTooltip:HookScript("OnTooltipSetItem", function(tt)
 		end
 	end
 end)
+-- I fucked up with bigwigs packager
