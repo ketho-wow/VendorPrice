@@ -1,7 +1,7 @@
 local VP = VendorPrice
 
 local function SetPrice(tt, count, item)
-	VP:SetPrice(tt, count, item, true)
+	VP:SetPrice(tt, "Compat", count, item, true)
 end
 
 local function IsShown(frame)
@@ -56,3 +56,28 @@ GameTooltip:HookScript("OnTooltipSetItem", function(tt)
 		SetPrice(tt)
 	end
 end)
+
+-- give auctionator precedence
+local AuctionatorTips = {
+	OnTooltipSetItem = true,
+	SetAuctionItem = true,
+	SetAuctionSellItem = true,
+	SetBagItem = true,
+	SetInboxItem = true,
+	SetInventoryItem = true,
+	SetLootItem = true,
+	SetLootRollItem = true,
+	SetQuestItem = true,
+	SetQuestLogItem = true,
+	SetSendMailItem = true, -- AUCTIONATOR_SHOW_MAILBOX_TIPS
+	SetTradePlayerItem = true,
+	SetTradeTargetItem = true,
+	--SetAction
+	--SetCraftItem
+	--SetCraftSpell
+	--SetTradeSkillItem
+}
+
+function VP:HasAuctionator(source)
+	return AUCTIONATOR_V_TIPS == 1 and AuctionatorTips[source]
+end

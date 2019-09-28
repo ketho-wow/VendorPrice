@@ -12,23 +12,25 @@ for i = 72, 77 do -- bank bags
 	CharacterBags[i] = true
 end
 
-local function ShouldShowPrice(tt)
+local function IsMerchant(tt)
 	if MerchantFrame:IsShown() then
 		local name = tt:GetOwner():GetName()
 		if name then -- bagnon sanity check
-			return name:find("Character") or name:find("TradeSkill")
+			return not (name:find("Character") or name:find("TradeSkill"))
 		end
 	end
-	return true
+end
+
+local function ShouldShowPrice(tt, source)
+	return not IsMerchant(tt) and not VP:HasAuctionator(source)
 end
 
 -- OnTooltipSetItem fires twice for recipes
 local function CheckRecipe(tt, classID, isOnTooltipSetItem)
 	if classID == LE_ITEM_CLASS_RECIPE and isOnTooltipSetItem then
 		tt.isFirstMoneyLine = not tt.isFirstMoneyLine
-		return not tt.isFirstMoneyLine
+		return tt.isFirstMoneyLine
 	end
-	return true
 end
 
 local function GetAmountString(count, isShift)
@@ -36,13 +38,13 @@ local function GetAmountString(count, isShift)
 	return (count > 1 or isShift) and COUNT_TEXT:format(count)..spacing or ""
 end
 
-function VP:SetPrice(tt, count, item, isOnTooltipSetItem)
-	if ShouldShowPrice(tt) then
+function VP:SetPrice(tt, source, count, item, isOnTooltipSetItem)
+	if ShouldShowPrice(tt, source) then
 		count = count or 1
 		item = item or select(2, tt:GetItem())
 		if item then
 			local sellPrice, classID = select(11, GetItemInfo(item))
-			if sellPrice and sellPrice > 0 and CheckRecipe(tt, classID, isOnTooltipSetItem) then
+			if sellPrice and sellPrice > 0 and not CheckRecipe(tt, classID, isOnTooltipSetItem) then
 				if IsShiftKeyDown() and count > 1 then
 					SetTooltipMoney(tt, sellPrice, nil, SELL_PRICE_TEXT..GetAmountString(1, true))
 				else
@@ -57,20 +59,20 @@ end
 local SetItem = {
 	SetAction = function(tt, slot)
 		if GetActionInfo(slot) == "item" then
-			VP:SetPrice(tt, GetActionCount(slot))
+			VP:SetPrice(tt, "SetAction", GetActionCount(slot))
 		end
 	end,
 	SetAuctionItem = function(tt, auctionType, index)
 		local _, _, count = GetAuctionItemInfo(auctionType, index)
-		VP:SetPrice(tt, count)
+		VP:SetPrice(tt, "SetAuctionItem", count)
 	end,
 	SetAuctionSellItem = function(tt)
 		local _, _, count = GetAuctionSellItemInfo()
-		VP:SetPrice(tt, count)
+		VP:SetPrice(tt, "SetAuctionSellItem", count)
 	end,
 	SetBagItem = function(tt, bag, slot)
 		local _, count = GetContainerItemInfo(bag, slot)
-		VP:SetPrice(tt, count)
+		VP:SetPrice(tt, "SetBagItem", count)
 	end,
 	--SetBagItemChild
 	--SetBuybackItem -- already shown
@@ -79,10 +81,10 @@ local SetItem = {
 		local _, _, count = GetCraftReagentInfo(index, reagent)
 		 -- otherwise returns an empty link
 		local itemLink = GetCraftReagentItemLink(index, reagent)
-		VP:SetPrice(tt, count, itemLink)
+		VP:SetPrice(tt, "SetCraftItem", count, itemLink)
 	end,
 	SetCraftSpell = function(tt)
-		VP:SetPrice(tt)
+		VP:SetPrice(tt "SetCraftSpell")
 	end,
 	--SetHyperlink -- item information is not readily available
 	SetInboxItem = function(tt, messageIndex, attachIndex)
@@ -92,42 +94,44 @@ local SetItem = {
 		else
 			count, itemID = select(14, GetInboxHeaderInfo(messageIndex))
 		end
-		VP:SetPrice(tt, count, itemID)
+		VP:SetPrice(tt, "SetInboxItem", count, itemID)
 	end,
 	SetInventoryItem = function(tt, unit, slot)
 		local count
 		if not CharacterBags[slot] then
 			count = GetInventoryItemCount(unit, slot)
 		end
-		VP:SetPrice(tt, count)
+		VP:SetPrice(tt, "SetInventoryItem", count)
 	end,
 	--SetInventoryItemByID
 	--SetItemByID
 	SetLootItem = function(tt, slot)
 		local _, _, count = GetLootSlotInfo(slot)
-		VP:SetPrice(tt, count)
+		VP:SetPrice(tt, "SetLootItem", count)
 	end,
 	SetLootRollItem = function(tt, rollID)
 		local _, _, count = GetLootRollItemInfo(rollID)
-		VP:SetPrice(tt, count)
+		VP:SetPrice(tt, "SetLootRollItem", count)
 	end,
 	--SetMerchantCostItem -- alternate currency
 	--SetMerchantItem -- already shown
 	SetQuestItem = function(tt, questType, index)
 		local _, _, count = GetQuestItemInfo(questType, index)
-		VP:SetPrice(tt, count)
+		VP:SetPrice(tt, "SetQuestItem", count)
 	end,
 	SetQuestLogItem = function(tt, _, index)
 		local _, _, count = GetQuestLogRewardInfo(index)
-		VP:SetPrice(tt, count)
+		VP:SetPrice(tt, "SetQuestLogItem", count)
 	end,
+	--SetRecipeReagentItem -- retail
+	--SetRecipeResultItem -- retail
 	SetSendMailItem = function(tt, index)
 		local count = select(4, GetSendMailItem(index))
-		VP:SetPrice(tt, count)
+		VP:SetPrice(tt, "SetSendMailItem", count)
 	end,
 	SetTradePlayerItem = function(tt, index)
 		local _, _, count = GetTradePlayerItemInfo(index)
-		VP:SetPrice(tt, count)
+		VP:SetPrice(tt, "SetTradePlayerItem", count)
 	end,
 	SetTradeSkillItem = function(tt, index, reagent)
 		local count
@@ -136,11 +140,11 @@ local SetItem = {
 		else -- show minimum instead of maximum count
 			count = GetTradeSkillNumMade(index)
 		end
-		VP:SetPrice(tt, count)
+		VP:SetPrice(tt, "SetTradeSkillItem", count)
 	end,
 	SetTradeTargetItem = function(tt, index)
 		local _, _, count = GetTradeTargetItemInfo(index)
-		VP:SetPrice(tt, count)
+		VP:SetPrice(tt, "SetTradeTargetItem", count)
 	end,
 }
 
@@ -150,11 +154,10 @@ end
 
 ItemRefTooltip:HookScript("OnTooltipSetItem", function(tt)
 	local item = select(2, tt:GetItem())
-	if item then
+	if item and not VP:HasAuctionator("OnTooltipSetItem") then
 		local sellPrice, classID = select(11, GetItemInfo(item))
-		if sellPrice and sellPrice > 0 and CheckRecipe(tt, classID, true) then
+		if sellPrice and sellPrice > 0 and not CheckRecipe(tt, classID, true) then
 			SetTooltipMoney(tt, sellPrice, nil, SELL_PRICE_TEXT)
 		end
 	end
 end)
--- I fucked up with bigwigs packager
