@@ -84,7 +84,7 @@ local SetItem = {
 		VP:SetPrice(tt, "SetCraftItem", count, itemLink)
 	end,
 	SetCraftSpell = function(tt)
-		VP:SetPrice(tt "SetCraftSpell")
+		VP:SetPrice(tt, "SetCraftSpell")
 	end,
 	--SetHyperlink -- item information is not readily available
 	SetInboxItem = function(tt, messageIndex, attachIndex)

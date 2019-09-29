@@ -63,13 +63,13 @@ local AuctionatorTips = {
 	SetAuctionItem = true,
 	SetAuctionSellItem = true,
 	SetBagItem = true,
-	SetInboxItem = true,
+	SetInboxItem = true, -- AUCTIONATOR_SHOW_MAILBOX_TIPS
 	SetInventoryItem = true,
 	SetLootItem = true,
 	SetLootRollItem = true,
 	SetQuestItem = true,
 	SetQuestLogItem = true,
-	SetSendMailItem = true, -- AUCTIONATOR_SHOW_MAILBOX_TIPS
+	SetSendMailItem = true,
 	SetTradePlayerItem = true,
 	SetTradeTargetItem = true,
 	--SetAction
