@@ -146,6 +146,9 @@ local SetItem = {
 		local _, _, count = GetTradeTargetItemInfo(index)
 		VP:SetPrice(tt, "SetTradeTargetItem", count)
 	end,
+	SetTrainerService = function(tt, index)
+		VP:SetPrice(tt, "SetTrainerService")
+	end,
 }
 
 for method, func in pairs(SetItem) do
