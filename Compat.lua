@@ -36,12 +36,14 @@ GameTooltip:HookScript("OnTooltipSetItem", function(tt)
 				break
 			end
 		end
+	elseif Auctionator and IsShown(Atr_Main_Panel) then
+		SetPrice(tt)
 	elseif AuctionFaster and IsShown(AuctionFrame) and AuctionFrame.selectedTab >= 4 then
 		local count
-		if AuctionFrame.selectedTab == 4 then
+		if AuctionFrame.selectedTab == 4 then -- sell
 			local item = tt:GetOwner().item
 			count = item and item.count
-		elseif AuctionFrame.selectedTab == 5 then
+		elseif AuctionFrame.selectedTab == 5 then -- buy
 			local hoverRowData = AuctionFaster.hoverRowData
 			count = hoverRowData and hoverRowData.count -- provided by AuctionFaster
 		end
@@ -76,6 +78,7 @@ local AuctionatorTips = {
 	--SetCraftItem
 	--SetCraftSpell
 	--SetTradeSkillItem
+	--SetTrainerService
 }
 
 function VP:HasAuctionator(source)
