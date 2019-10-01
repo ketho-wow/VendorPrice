@@ -61,6 +61,7 @@ end)
 
 -- give auctionator precedence
 local AuctionatorTips = {
+	Compat = true,
 	OnTooltipSetItem = true,
 	SetAuctionItem = true,
 	SetAuctionSellItem = true,

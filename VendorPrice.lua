@@ -22,7 +22,7 @@ local function IsMerchant(tt)
 end
 
 local function ShouldShowPrice(tt, source)
-	return not IsMerchant(tt) and not VP:HasAuctionator(source)
+	return not IsMerchant(tt) --and not VP:HasAuctionator(source)
 end
 
 -- OnTooltipSetItem fires twice for recipes
@@ -157,7 +157,7 @@ end
 
 ItemRefTooltip:HookScript("OnTooltipSetItem", function(tt)
 	local item = select(2, tt:GetItem())
-	if item and not VP:HasAuctionator("OnTooltipSetItem") then
+	if item then
 		local sellPrice, classID = select(11, GetItemInfo(item))
 		if sellPrice and sellPrice > 0 and not CheckRecipe(tt, classID, true) then
 			SetTooltipMoney(tt, sellPrice, nil, SELL_PRICE_TEXT)
