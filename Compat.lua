@@ -53,9 +53,13 @@ GameTooltip:HookScript("OnTooltipSetItem", function(tt)
 		if info then -- /bagnon bank
 			SetPrice(tt, info.count)
 		end
-	-- lazy check for any chat windows that are docked to ChatFrame1
-	elseif DEFAULT_CHAT_FRAME:IsMouseOver() then -- Chatter, Prat
-		SetPrice(tt)
+	else -- Chatter, Prat: check for active chat windows
+		for i = 1, FCF_GetNumActiveChatFrames() do
+			if _G["ChatFrame"..i]:IsMouseOver() then
+				SetPrice(tt)
+				break
+			end
+		end
 	end
 end)
 
