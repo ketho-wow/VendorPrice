@@ -57,11 +57,12 @@ GameTooltip:HookScript("OnTooltipSetItem", function(tt)
 		end
 	else -- Chatter, Prat: check for active chat windows
 		local mouseFocus = GetMouseFocus()
-		local isFontString = mouseFocus and mouseFocus:GetObjectType() == "FontString"
-		for i = 1, FCF_GetNumActiveChatFrames() do
-			if _G["ChatFrame"..i]:IsMouseOver() and isFontString then
-				SetPrice(tt)
-				break
+		if mouseFocus and mouseFocus:GetObjectType() == "FontString" then
+			for i = 1, FCF_GetNumActiveChatFrames() do
+				if _G["ChatFrame"..i]:IsMouseOver() then
+					SetPrice(tt)
+					break
+				end
 			end
 		end
 	end
