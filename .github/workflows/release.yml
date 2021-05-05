@@ -19,3 +19,7 @@ jobs:
       - uses: BigWigsMods/packager@master
         with:
           args: -g classic
+
+      - uses: BigWigsMods/packager@master
+        with:
+          args: -g bc
