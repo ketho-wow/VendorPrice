@@ -1,0 +1,29 @@
+{
+	"Lua.diagnostics.globals": [
+		"AtlasLoot",
+		"Atr_Main_Panel",
+		"AucAdvanced",
+		"AucAdvAppraiserFrame",
+		"AucAdvSimpFrame",
+		"AUCTIONATOR_V_TIPS",
+		"Auctionator",
+		"AuctionFaster",
+		"AuctionFrame",
+		"Bagnon",
+		"BagnonFramebank",
+		"CONTAINER_BAG_OFFSET",
+		"FCF_GetNumActiveChatFrames",
+		"GameTooltip",
+		"GetAuctionItemInfo",
+		"GetAuctionSellItemInfo",
+		"GetCraftReagentInfo",
+		"GetCraftReagentItemLink",
+		"GetTradeSkillNumMade",
+		"GetTradeSkillReagentInfo",
+		"ItemRefTooltip",
+		"LE_ITEM_CLASS_RECIPE",
+		"MerchantFrame",
+		"SELL_PRICE",
+		"SetTooltipMoney"
+	]
+}
