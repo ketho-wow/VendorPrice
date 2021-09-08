@@ -23,6 +23,8 @@
 		"ItemRefTooltip",
 		"LE_ITEM_CLASS_RECIPE",
 		"MerchantFrame",
+		"NUM_BAG_SLOTS",
+		"NUM_BANKBAGSLOTS",
 		"SELL_PRICE",
 		"SetTooltipMoney"
 	]

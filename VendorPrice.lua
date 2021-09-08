@@ -2,13 +2,15 @@ VendorPrice = {}
 local VP = VendorPrice
 
 local SELL_PRICE_TEXT = format("%s:", SELL_PRICE)
-local COUNT_TEXT = " |cffAAAAFFx%d|r"
 
 local CharacterBags = {}
 for i = CONTAINER_BAG_OFFSET+1, 23 do
 	CharacterBags[i] = true
 end
-for i = 72, 77 do -- bank bags
+
+local firstBankBag = ContainerIDToInventoryID(NUM_BAG_SLOTS + 1)
+local lastBankBag = ContainerIDToInventoryID(NUM_BAG_SLOTS + NUM_BANKBAGSLOTS)
+for i = firstBankBag, lastBankBag do
 	CharacterBags[i] = true
 end
 
@@ -33,11 +35,6 @@ local function CheckRecipe(tt, classID, isOnTooltipSetItem)
 	end
 end
 
-local function GetAmountString(count, isShift)
-	local spacing = count < 10 and "  " or ""
-	return (count > 1 or isShift) and COUNT_TEXT:format(count)..spacing or ""
-end
-
 function VP:SetPrice(tt, source, count, item, isOnTooltipSetItem)
 	if ShouldShowPrice(tt, source) then
 		count = count or 1
@@ -46,9 +43,9 @@ function VP:SetPrice(tt, source, count, item, isOnTooltipSetItem)
 			local sellPrice, classID = select(11, GetItemInfo(item))
 			if sellPrice and sellPrice > 0 and not CheckRecipe(tt, classID, isOnTooltipSetItem) then
 				if IsShiftKeyDown() and count > 1 then
-					SetTooltipMoney(tt, sellPrice, nil, SELL_PRICE_TEXT..GetAmountString(1, true))
+					SetTooltipMoney(tt, sellPrice, nil, SELL_PRICE_TEXT)
 				else
-					SetTooltipMoney(tt, sellPrice * count, nil, SELL_PRICE_TEXT..GetAmountString(count))
+					SetTooltipMoney(tt, sellPrice * count, nil, SELL_PRICE_TEXT)
 				end
 				tt:Show()
 			end
