@@ -1,4 +1,4 @@
-## Interface-Classic: 11400
+## Interface-Classic: 11401
 ## Interface-BCC: 20502
 ## Version: @project-version@
 ## Title: Vendor Price
@@ -6,6 +6,7 @@
 ## Author: Ketho, Icesythe7
 ## X-Curse-Project-ID: 322091
 ## X-WoWI-ID: 24922
+## X-Wago-ID: RqGY4EKg
 
 VendorPrice.lua
 Compat.lua
