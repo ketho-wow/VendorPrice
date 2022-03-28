@@ -15,12 +15,10 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-
-      - uses: BigWigsMods/packager@master
+      - uses: actions/checkout@v2
         with:
-          args: -g classic
+          fetch-depth: 0
 
-      - uses: BigWigsMods/packager@master
+      - uses: BigWigsMods/packager@v2
         with:
-          args: -g bcc
+          args: -S
