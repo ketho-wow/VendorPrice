@@ -42,11 +42,8 @@ function VP:SetPrice(tt, source, count, item, isOnTooltipSetItem)
 		if item then
 			local sellPrice, classID = select(11, GetItemInfo(item))
 			if sellPrice and sellPrice > 0 and not CheckRecipe(tt, classID, isOnTooltipSetItem) then
-				if IsShiftKeyDown() and count > 1 then
-					SetTooltipMoney(tt, sellPrice, nil, SELL_PRICE_TEXT)
-				else
-					SetTooltipMoney(tt, sellPrice * count, nil, SELL_PRICE_TEXT)
-				end
+				local displayPrice = IsShiftKeyDown() and count > 1 and sellPrice or sellPrice * count
+				SetTooltipMoney(tt, displayPrice, nil, SELL_PRICE_TEXT)
 				tt:Show()
 			end
 		end
