@@ -36,8 +36,8 @@ GameTooltip:HookScript("OnTooltipSetItem", function(tt)
 				break
 			end
 		end
-	elseif Auctionator and IsShown(Atr_Main_Panel) then
-		SetPrice(tt)
+	--elseif Auctionator and IsShown(Atr_Main_Panel) then
+	--	SetPrice(tt)
 	elseif AuctionFaster and IsShown(AuctionFrame) and AuctionFrame.selectedTab >= 4 then
 		local count
 		if AuctionFrame.selectedTab == 4 then -- sell
@@ -50,11 +50,11 @@ GameTooltip:HookScript("OnTooltipSetItem", function(tt)
 		SetPrice(tt, count)
 	elseif AtlasLoot and IsShown(_G["AtlasLoot_GUI-Frame"]) then
 		SetPrice(tt)
-	elseif Bagnon and IsShown(BagnonFramebank) then
-		local info = tt:GetOwner():GetParent().info
-		if info then -- /bagnon bank
-			SetPrice(tt, info.count)
-		end
+	--elseif Bagnon and IsShown(BagnonFramebank) then
+	--	local info = tt:GetOwner():GetParent().info
+	--	if info then -- /bagnon bank
+	--		SetPrice(tt, info.count)
+	--	end
 	else -- Chatter, Prat: check for active chat windows
 		local mouseFocus = GetMouseFocus()
 		if mouseFocus and mouseFocus:GetObjectType() == "FontString" then

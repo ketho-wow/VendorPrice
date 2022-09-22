@@ -51,35 +51,35 @@ function VP:SetPrice(tt, source, count, item, isOnTooltipSetItem)
 end
 
 local SetItem = {
-	SetAction = function(tt, slot)
-		if GetActionInfo(slot) == "item" then
-			VP:SetPrice(tt, "SetAction", GetActionCount(slot))
-		end
-	end,
+	--SetAction = function(tt, slot)
+	--	if GetActionInfo(slot) == "item" then
+	--		VP:SetPrice(tt, "SetAction", GetActionCount(slot))
+	--	end
+	--end,
 	SetAuctionItem = function(tt, auctionType, index)
 		local _, _, count = GetAuctionItemInfo(auctionType, index)
 		VP:SetPrice(tt, "SetAuctionItem", count)
 	end,
-	SetAuctionSellItem = function(tt)
-		local _, _, count = GetAuctionSellItemInfo()
-		VP:SetPrice(tt, "SetAuctionSellItem", count)
-	end,
-	SetBagItem = function(tt, bag, slot)
-		local _, count = GetContainerItemInfo(bag, slot)
-		VP:SetPrice(tt, "SetBagItem", count)
-	end,
+	--SetAuctionSellItem = function(tt)
+	--	local _, _, count = GetAuctionSellItemInfo()
+	--	VP:SetPrice(tt, "SetAuctionSellItem", count)
+	--end,
+	--SetBagItem = function(tt, bag, slot)
+	--	local _, count = GetContainerItemInfo(bag, slot)
+	--	VP:SetPrice(tt, "SetBagItem", count)
+	--end,
 	--SetBagItemChild
 	--SetBuybackItem -- already shown
 	--SetCompareItem
-	SetCraftItem = function(tt, index, reagent)
-		local _, _, count = GetCraftReagentInfo(index, reagent)
-		 -- otherwise returns an empty link
-		local itemLink = GetCraftReagentItemLink(index, reagent)
-		VP:SetPrice(tt, "SetCraftItem", count, itemLink)
-	end,
-	SetCraftSpell = function(tt)
-		VP:SetPrice(tt, "SetCraftSpell")
-	end,
+	--SetCraftItem = function(tt, index, reagent)
+	--	local _, _, count = GetCraftReagentInfo(index, reagent)
+	--	 -- otherwise returns an empty link
+	--	local itemLink = GetCraftReagentItemLink(index, reagent)
+	--	VP:SetPrice(tt, "SetCraftItem", count, itemLink)
+	--end,
+	--SetCraftSpell = function(tt)
+	--	VP:SetPrice(tt, "SetCraftSpell")
+	--end,
 	--SetHyperlink -- item information is not readily available
 	SetInboxItem = function(tt, messageIndex, attachIndex)
 		local count, itemID
@@ -119,14 +119,14 @@ local SetItem = {
 	end,
 	--SetRecipeReagentItem -- retail
 	--SetRecipeResultItem -- retail
-	SetSendMailItem = function(tt, index)
-		local count = select(4, GetSendMailItem(index))
-		VP:SetPrice(tt, "SetSendMailItem", count)
-	end,
-	SetTradePlayerItem = function(tt, index)
-		local _, _, count = GetTradePlayerItemInfo(index)
-		VP:SetPrice(tt, "SetTradePlayerItem", count)
-	end,
+	--SetSendMailItem = function(tt, index)
+	--	local count = select(4, GetSendMailItem(index))
+	--	VP:SetPrice(tt, "SetSendMailItem", count)
+	--end,
+	--SetTradePlayerItem = function(tt, index)
+	--	local _, _, count = GetTradePlayerItemInfo(index)
+	--	VP:SetPrice(tt, "SetTradePlayerItem", count)
+	--end,
 	SetTradeSkillItem = function(tt, index, reagent)
 		local count
 		if reagent then
@@ -140,9 +140,9 @@ local SetItem = {
 		local _, _, count = GetTradeTargetItemInfo(index)
 		VP:SetPrice(tt, "SetTradeTargetItem", count)
 	end,
-	SetTrainerService = function(tt, index)
-		VP:SetPrice(tt, "SetTrainerService")
-	end,
+	--SetTrainerService = function(tt, index)
+	--	VP:SetPrice(tt, "SetTrainerService")
+	--end,
 }
 
 for method, func in pairs(SetItem) do
