@@ -1,10 +1,10 @@
 local VP = VendorPrice
 
 local function SetPrice(tt, count, item)
-	VP:SetPrice(tt, "Compat", count, item, true)
+	VP:SetPrice(tt, false, "Compat", count, item, true)
 end
 
-local function IsShown(frame)
+function VP:IsShown(frame)
 	return frame and frame:IsVisible() and frame:IsMouseOver()
 end
 
@@ -29,16 +29,14 @@ local Auctioneer = {
 }
 
 GameTooltip:HookScript("OnTooltipSetItem", function(tt)
-	if AucAdvanced and IsShown(AuctionFrame) then
+	if AucAdvanced and VP:IsShown(AuctionFrame) then
 		for frame, func in pairs(Auctioneer) do
-			if IsShown(_G[frame]) then
+			if VP:IsShown(_G[frame]) then
 				func(tt)
 				break
 			end
 		end
-	--elseif Auctionator and IsShown(Atr_Main_Panel) then
-	--	SetPrice(tt)
-	elseif AuctionFaster and IsShown(AuctionFrame) and AuctionFrame.selectedTab >= 4 then
+	elseif AuctionFaster and VP:IsShown(AuctionFrame) and AuctionFrame.selectedTab >= 4 then
 		local count
 		if AuctionFrame.selectedTab == 4 then -- sell
 			local item = tt:GetOwner().item
@@ -48,13 +46,8 @@ GameTooltip:HookScript("OnTooltipSetItem", function(tt)
 			count = hoverRowData and hoverRowData.count -- provided by AuctionFaster
 		end
 		SetPrice(tt, count)
-	elseif AtlasLoot and IsShown(_G["AtlasLoot_GUI-Frame"]) then
+	elseif AtlasLoot and VP:IsShown(_G["AtlasLoot_GUI-Frame"]) then
 		SetPrice(tt)
-	--elseif Bagnon and IsShown(BagnonFramebank) then
-	--	local info = tt:GetOwner():GetParent().info
-	--	if info then -- /bagnon bank
-	--		SetPrice(tt, info.count)
-	--	end
 	else -- Chatter, Prat: check for active chat windows
 		local mouseFocus = GetMouseFocus()
 		if mouseFocus and mouseFocus:GetObjectType() == "FontString" then
@@ -67,30 +60,3 @@ GameTooltip:HookScript("OnTooltipSetItem", function(tt)
 		end
 	end
 end)
-
--- give auctionator precedence
-local AuctionatorTips = {
-	Compat = true,
-	OnTooltipSetItem = true,
-	SetAuctionItem = true,
-	SetAuctionSellItem = true,
-	SetBagItem = true,
-	SetInboxItem = true, -- AUCTIONATOR_SHOW_MAILBOX_TIPS
-	SetInventoryItem = true,
-	SetLootItem = true,
-	SetLootRollItem = true,
-	SetQuestItem = true,
-	SetQuestLogItem = true,
-	SetSendMailItem = true,
-	SetTradePlayerItem = true,
-	SetTradeTargetItem = true,
-	--SetAction
-	--SetCraftItem
-	--SetCraftSpell
-	--SetTradeSkillItem
-	--SetTrainerService
-}
-
-function VP:HasAuctionator(source)
-	return AUCTIONATOR_V_TIPS == 1 and AuctionatorTips[source]
-end

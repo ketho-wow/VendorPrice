@@ -1,16 +1,12 @@
 {
 	"Lua.diagnostics.globals": [
 		"AtlasLoot",
-		"Atr_Main_Panel",
 		"AucAdvanced",
 		"AucAdvAppraiserFrame",
 		"AucAdvSimpFrame",
-		"AUCTIONATOR_V_TIPS",
-		"Auctionator",
 		"AuctionFaster",
 		"AuctionFrame",
-		"Bagnon",
-		"BagnonFramebank",
+		"BankFrame",
 		"CONTAINER_BAG_OFFSET",
 		"FCF_GetNumActiveChatFrames",
 		"GameTooltip",
@@ -26,6 +22,7 @@
 		"NUM_BAG_SLOTS",
 		"NUM_BANKBAGSLOTS",
 		"SELL_PRICE",
-		"SetTooltipMoney"
+		"SetTooltipMoney",
+		"WOW_PROJECT_WRATH_CLASSIC"
 	]
 }
