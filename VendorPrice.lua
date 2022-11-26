@@ -18,6 +18,8 @@ for i = firstBankBag, lastBankBag do
 	CharacterBags[i] = true
 end
 
+local FIRST_KEYRING_INVSLOT = 107
+
 local function IsMerchant(tt)
 	if MerchantFrame:IsShown() then
 		local name = tt:GetOwner():GetName()
@@ -126,7 +128,9 @@ local SetItem = {
 		if not CharacterBags[slot] then
 			count = GetInventoryItemCount(unit, slot)
 		end
-		VP:SetPrice(tt, VP:IsShown(BankFrame), "SetInventoryItem", count)
+		if slot < FIRST_KEYRING_INVSLOT then
+			VP:SetPrice(tt, VP:IsShown(BankFrame), "SetInventoryItem", count)
+		end
 	end,
 	--SetInventoryItemByID
 	--SetItemByID
