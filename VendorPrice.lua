@@ -12,8 +12,8 @@ for i = CONTAINER_BAG_OFFSET+1, 23 do
 	CharacterBags[i] = true
 end
 
-local firstBankBag = ContainerIDToInventoryID(NUM_BAG_SLOTS + 1)
-local lastBankBag = ContainerIDToInventoryID(NUM_BAG_SLOTS + NUM_BANKBAGSLOTS)
+local firstBankBag = C_Container.ContainerIDToInventoryID(NUM_BAG_SLOTS + 1)
+local lastBankBag = C_Container.ContainerIDToInventoryID(NUM_BAG_SLOTS + NUM_BANKBAGSLOTS)
 for i = firstBankBag, lastBankBag do
 	CharacterBags[i] = true
 end
