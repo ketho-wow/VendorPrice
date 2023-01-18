@@ -12,8 +12,8 @@ for i = CONTAINER_BAG_OFFSET+1, 23 do
 	CharacterBags[i] = true
 end
 
-local firstBankBag = C_Container.ContainerIDToInventoryID(NUM_BAG_SLOTS + 1)
-local lastBankBag = C_Container.ContainerIDToInventoryID(NUM_BAG_SLOTS + NUM_BANKBAGSLOTS)
+local firstBankBag = (isWrath and C_Container.ContainerIDToInventoryID or ContainerIDToInventoryID)(NUM_BAG_SLOTS + 1)
+local lastBankBag = (isWrath and C_Container.ContainerIDToInventoryID or ContainerIDToInventoryID)(NUM_BAG_SLOTS + NUM_BANKBAGSLOTS)
 for i = firstBankBag, lastBankBag do
 	CharacterBags[i] = true
 end
@@ -98,7 +98,7 @@ local SetItem = {
 		VP:SetPrice(tt, true, "SetAuctionSellItem", count)
 	end,
 	SetBagItem = function(tt, bag, slot)
-		local _, count = GetContainerItemInfo(bag, slot)
+		local _, count = (isWrath and C_Container.GetContainerItemInfo or GetContainerItemInfo)(bag, slot)
 		VP:SetPrice(tt, true, "SetBagItem", count)
 	end,
 	--SetBagItemChild
