@@ -98,8 +98,18 @@ local SetItem = {
 		VP:SetPrice(tt, true, "SetAuctionSellItem", count)
 	end,
 	SetBagItem = function(tt, bag, slot)
-		local _, count = (isWrath and C_Container.GetContainerItemInfo or GetContainerItemInfo)(bag, slot)
-		VP:SetPrice(tt, true, "SetBagItem", count)
+		local count
+		if isWrath then
+			local info = C_Container.GetContainerItemInfo(bag, slot)
+			if info then
+				count = info.stackCount
+			end
+		else
+			count = select(2, GetContainerItemInfo)(bag, slot)
+		end
+		if count then
+			VP:SetPrice(tt, true, "SetBagItem", count)
+		end
 	end,
 	--SetBagItemChild
 	--SetBuybackItem -- already shown
