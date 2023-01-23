@@ -105,7 +105,7 @@ local SetItem = {
 				count = info.stackCount
 			end
 		else
-			count = select(2, GetContainerItemInfo)(bag, slot)
+			count = select(2, GetContainerItemInfo(bag, slot))
 		end
 		if count then
 			VP:SetPrice(tt, true, "SetBagItem", count)
