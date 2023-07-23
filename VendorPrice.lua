@@ -4,6 +4,8 @@ local VP = VendorPrice
 local isVanilla = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
 local isWrath = WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC
 
+local ContainerIDToInventoryID = ContainerIDToInventoryID or C_Container.ContainerIDToInventoryID
+
 local SELL_PRICE_TEXT = format("%s:", SELL_PRICE)
 local overridePrice
 
@@ -12,8 +14,8 @@ for i = CONTAINER_BAG_OFFSET+1, 23 do
 	CharacterBags[i] = true
 end
 
-local firstBankBag = (isWrath and C_Container.ContainerIDToInventoryID or ContainerIDToInventoryID)(NUM_BAG_SLOTS + 1)
-local lastBankBag = (isWrath and C_Container.ContainerIDToInventoryID or ContainerIDToInventoryID)(NUM_BAG_SLOTS + NUM_BANKBAGSLOTS)
+local firstBankBag = ContainerIDToInventoryID(NUM_BAG_SLOTS + 1)
+local lastBankBag = ContainerIDToInventoryID(NUM_BAG_SLOTS + NUM_BANKBAGSLOTS)
 for i = firstBankBag, lastBankBag do
 	CharacterBags[i] = true
 end
@@ -57,7 +59,7 @@ GameTooltip:HookScript("OnHide", function()
 	overridePrice = nil
 end)
 
-function VP:SetPrice(tt, noWrath, source, count, item, isOnTooltipSetItem)
+function VP:SetPrice(tt, hasWrathTooltip, source, count, item, isOnTooltipSetItem)
 	if ShouldShowPrice(tt, source) then
 		count = count or 1
 		item = item or select(2, tt:GetItem())
@@ -69,7 +71,7 @@ function VP:SetPrice(tt, noWrath, source, count, item, isOnTooltipSetItem)
 				if isVanilla then
 					SetTooltipMoney(tt, displayPrice, nil, SELL_PRICE_TEXT)
 				elseif isWrath then
-					if noWrath then
+					if hasWrathTooltip then
 						if isShift then
 							overridePrice = displayPrice
 						end
@@ -99,13 +101,13 @@ local SetItem = {
 	end,
 	SetBagItem = function(tt, bag, slot)
 		local count
-		if isWrath then
+		if GetContainerItemInfo then
+			count = select(2, GetContainerItemInfo(bag, slot))
+		else
 			local info = C_Container.GetContainerItemInfo(bag, slot)
 			if info then
 				count = info.stackCount
 			end
-		else
-			count = select(2, GetContainerItemInfo(bag, slot))
 		end
 		if count then
 			VP:SetPrice(tt, true, "SetBagItem", count)
