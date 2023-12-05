@@ -4,8 +4,6 @@ local VP = VendorPrice
 local isVanilla = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
 local isWrath = WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC
 
-local ContainerIDToInventoryID = ContainerIDToInventoryID or C_Container.ContainerIDToInventoryID
-
 local SELL_PRICE_TEXT = format("%s:", SELL_PRICE)
 local overridePrice
 
@@ -14,8 +12,8 @@ for i = CONTAINER_BAG_OFFSET+1, 23 do
 	CharacterBags[i] = true
 end
 
-local firstBankBag = ContainerIDToInventoryID(NUM_BAG_SLOTS + 1)
-local lastBankBag = ContainerIDToInventoryID(NUM_BAG_SLOTS + NUM_BANKBAGSLOTS)
+local firstBankBag = C_Container.ContainerIDToInventoryID(NUM_BAG_SLOTS + 1)
+local lastBankBag = C_Container.ContainerIDToInventoryID(NUM_BAG_SLOTS + NUM_BANKBAGSLOTS)
 for i = firstBankBag, lastBankBag do
 	CharacterBags[i] = true
 end
@@ -100,17 +98,9 @@ local SetItem = {
 		VP:SetPrice(tt, true, "SetAuctionSellItem", count)
 	end,
 	SetBagItem = function(tt, bag, slot)
-		local count
-		if GetContainerItemInfo then
-			count = select(2, GetContainerItemInfo(bag, slot))
-		else
-			local info = C_Container.GetContainerItemInfo(bag, slot)
-			if info then
-				count = info.stackCount
-			end
-		end
-		if count then
-			VP:SetPrice(tt, true, "SetBagItem", count)
+		local info = C_Container.GetContainerItemInfo(bag, slot)
+		if info and info.stackCount then
+			VP:SetPrice(tt, true, "SetBagItem", info.stackCount)
 		end
 	end,
 	--SetBagItemChild

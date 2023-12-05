@@ -1,5 +1,5 @@
-## Interface: 30402
-## Interface-Classic: 11404
+## Interface: 30403
+## Interface-Classic: 11500
 ## Version: @project-version@
 ## Title: Vendor Price
 ## Notes: Displays the price of an item when not at a vendor
