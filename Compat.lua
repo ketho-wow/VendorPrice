@@ -1,5 +1,9 @@
 local VP = VendorPrice
 
+if not VP.isVanilla and not VP.isWrath then
+	return
+end
+
 local function SetPrice(tt, count, item)
 	VP:SetPrice(tt, false, "Compat", count, item, true)
 end

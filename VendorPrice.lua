@@ -1,8 +1,12 @@
 VendorPrice = {}
 local VP = VendorPrice
 
-local isVanilla = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
-local isWrath = WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC
+VP.isVanilla = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
+VP.isWrath = WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC
+
+if not VP.isVanilla and not VP.isWrath then
+	return
+end
 
 local SELL_PRICE_TEXT = format("%s:", SELL_PRICE)
 local overridePrice
@@ -66,9 +70,9 @@ function VP:SetPrice(tt, hasWrathTooltip, source, count, item, isOnTooltipSetIte
 			if sellPrice and sellPrice > 0 and not CheckRecipe(tt, classID, isOnTooltipSetItem) then
 				local isShift = IsShiftKeyDown() and count > 1
 				local displayPrice = isShift and sellPrice or sellPrice * count
-				if isVanilla then
+				if self.isVanilla then
 					SetTooltipMoney(tt, displayPrice, nil, SELL_PRICE_TEXT)
-				elseif isWrath then
+				elseif self.isWrath then
 					if hasWrathTooltip then
 						if isShift then
 							overridePrice = displayPrice
