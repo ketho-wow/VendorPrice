@@ -12,7 +12,9 @@ local SELL_PRICE_TEXT = format("%s:", SELL_PRICE)
 local overridePrice
 
 local CharacterBags = {}
-for i = CONTAINER_BAG_OFFSET+1, 23 do
+-- CONTAINER_BAG_OFFSET is 19 on classic and 30 on retail
+-- but classic uses slot 31 to 34 for bags
+for i = 31, 34 do
 	CharacterBags[i] = true
 end
 
