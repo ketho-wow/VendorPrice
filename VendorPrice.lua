@@ -2,11 +2,13 @@ VendorPrice = {}
 local VP = VendorPrice
 
 VP.isVanilla = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
-VP.isWrath = WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC
+VP.isCata = WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC
 
-if not VP.isVanilla and not VP.isWrath then
+if not VP.isVanilla and not VP.isCata then
 	return
 end
+
+local GetItemInfo = GetItemInfo or C_Item.GetItemInfo
 
 local SELL_PRICE_TEXT = format("%s:", SELL_PRICE)
 local overridePrice
@@ -63,7 +65,7 @@ GameTooltip:HookScript("OnHide", function()
 	overridePrice = nil
 end)
 
-function VP:SetPrice(tt, hasWrathTooltip, source, count, item, isOnTooltipSetItem)
+function VP:SetPrice(tt, hasCataTooltip, source, count, item, isOnTooltipSetItem)
 	if ShouldShowPrice(tt, source) then
 		count = count or 1
 		item = item or select(2, tt:GetItem())
@@ -74,8 +76,8 @@ function VP:SetPrice(tt, hasWrathTooltip, source, count, item, isOnTooltipSetIte
 				local displayPrice = isShift and sellPrice or sellPrice * count
 				if self.isVanilla then
 					SetTooltipMoney(tt, displayPrice, nil, SELL_PRICE_TEXT)
-				elseif self.isWrath then
-					if hasWrathTooltip then
+				elseif self.isCata then
+					if hasCataTooltip then
 						if isShift then
 							overridePrice = displayPrice
 						end
