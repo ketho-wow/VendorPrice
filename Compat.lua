@@ -1,6 +1,6 @@
 local VP = VendorPrice
 
-if not VP.isVanilla and not VP.isCata then
+if not VP.isVanilla and not VP.isCata and not VP.isMop then
 	return
 end
 

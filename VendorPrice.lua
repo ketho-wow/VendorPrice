@@ -3,8 +3,9 @@ local VP = VendorPrice
 
 VP.isVanilla = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
 VP.isCata = WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC
+VP.isMop = WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC
 
-if not VP.isVanilla and not VP.isCata then
+if not VP.isVanilla and not VP.isCata and not VP.isMop then
 	return
 end
 
@@ -76,7 +77,7 @@ function VP:SetPrice(tt, hasCataTooltip, source, count, item, isOnTooltipSetItem
 				local displayPrice = isShift and sellPrice or sellPrice * count
 				if self.isVanilla then
 					SetTooltipMoney(tt, displayPrice, nil, SELL_PRICE_TEXT)
-				elseif self.isCata then
+				elseif self.isCata or self.isMop then
 					if hasCataTooltip then
 						if isShift then
 							overridePrice = displayPrice
