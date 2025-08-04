@@ -98,6 +98,7 @@ local SetItem = {
 			VP:SetPrice(tt, true, "SetAction", GetActionCount(slot))
 		end
 	end,
+	-- auction hooks only seem to work on vanilla
 	SetAuctionItem = function(tt, auctionType, index)
 		local _, _, count = GetAuctionItemInfo(auctionType, index)
 		VP:SetPrice(tt, false, "SetAuctionItem", count)
@@ -202,5 +203,35 @@ ItemRefTooltip:HookScript("OnTooltipSetItem", function(tt)
 		if sellPrice and sellPrice > 0 and not CheckRecipe(tt, classID, true) then
 			SetTooltipMoney(tt, sellPrice, nil, SELL_PRICE_TEXT)
 		end
+	end
+end)
+
+local itemButtons = {
+	["AuctionHouseFrame.CommoditiesBuyFrame.BuyDisplay.ItemDisplay.ItemButton"] = true,
+	["AuctionHouseFrame.CommoditiesSellFrame.ItemDisplay.ItemButton"] = true,
+	["AuctionHouseFrameAuctionsFrame.ItemDisplay.ItemButton"] = true,
+}
+
+local function IsAuctionHouseButton(s)
+	if not s:find("AuctionHouseFrame") then -- return early
+		return false
+	end
+	if s:find("AuctionHouseFrame.BrowseResultsFrame.ItemList.ScrollBox.ScrollTarget", 1, true) then
+		return true
+	elseif itemButtons[s] then
+		return true
+	end
+end
+
+-- on mists the auction house uses a different way to show auction tooltips
+GameTooltip:HookScript("OnTooltipSetItem", function(tt)
+	local owner = tt:GetOwner()
+	if not owner then return end
+
+	local name = owner:GetDebugName()
+	if not name then return end
+
+	if IsAuctionHouseButton(name) then
+		VP:SetPrice(tt)
 	end
 end)
