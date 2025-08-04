@@ -1,26 +1,25 @@
 VendorPrice = {}
 local VP = VendorPrice
 
+VP.isRetail = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE
 VP.isVanilla = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
-VP.isCata = WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC
 VP.isMop = WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC
 
-if not VP.isVanilla and not VP.isCata and not VP.isMop then
+if VP.isRetail then
 	return
 end
-
-local GetItemInfo = GetItemInfo or C_Item.GetItemInfo
 
 local SELL_PRICE_TEXT = format("%s:", SELL_PRICE)
 local overridePrice
 
 local CharacterBags = {}
--- CONTAINER_BAG_OFFSET is 19 on classic and 30 on retail
--- but classic uses slot 31 to 34 for bags
+
+-- on vanilla and mists invslotid 31 to 34
 for i = 31, 34 do
 	CharacterBags[i] = true
 end
 
+-- on vanilla invslotid 88-93, on mists 88-94
 local firstBankBag = C_Container.ContainerIDToInventoryID(NUM_BAG_SLOTS + 1)
 local lastBankBag = C_Container.ContainerIDToInventoryID(NUM_BAG_SLOTS + NUM_BANKBAGSLOTS)
 for i = firstBankBag, lastBankBag do
@@ -66,19 +65,19 @@ GameTooltip:HookScript("OnHide", function()
 	overridePrice = nil
 end)
 
-function VP:SetPrice(tt, hasCataTooltip, source, count, item, isOnTooltipSetItem)
+function VP:SetPrice(tt, hasMopTooltip, source, count, item, isOnTooltipSetItem)
 	if ShouldShowPrice(tt, source) then
 		count = count or 1
 		item = item or select(2, tt:GetItem())
 		if item then
-			local sellPrice, classID = select(11, GetItemInfo(item))
+			local sellPrice, classID = select(11, C_Item.GetItemInfo(item))
 			if sellPrice and sellPrice > 0 and not CheckRecipe(tt, classID, isOnTooltipSetItem) then
 				local isShift = IsShiftKeyDown() and count > 1
 				local displayPrice = isShift and sellPrice or sellPrice * count
 				if self.isVanilla then
 					SetTooltipMoney(tt, displayPrice, nil, SELL_PRICE_TEXT)
-				elseif self.isCata or self.isMop then
-					if hasCataTooltip then
+				elseif self.isMop then
+					if hasMopTooltip then
 						if isShift then
 							overridePrice = displayPrice
 						end
@@ -199,7 +198,7 @@ end
 ItemRefTooltip:HookScript("OnTooltipSetItem", function(tt)
 	local item = select(2, tt:GetItem())
 	if item then
-		local sellPrice, classID = select(11, GetItemInfo(item))
+		local sellPrice, classID = select(11, C_Item.GetItemInfo(item))
 		if sellPrice and sellPrice > 0 and not CheckRecipe(tt, classID, true) then
 			SetTooltipMoney(tt, sellPrice, nil, SELL_PRICE_TEXT)
 		end

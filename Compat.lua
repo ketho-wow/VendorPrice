@@ -1,19 +1,11 @@
 local VP = VendorPrice
 
-if not VP.isVanilla and not VP.isCata and not VP.isMop then
+if VP.isRetail then
 	return
 end
 
 local function SetPrice(tt, count, item)
 	VP:SetPrice(tt, false, "Compat", count, item, true)
-end
-
-local function GetMouseFoc()
-	if GetMouseFoci then
-		return GetMouseFoci()[1]
-	elseif GetMouseFocus then
-		return GetMouseFocus()
-	end
 end
 
 function VP:IsShown(frame)
@@ -61,7 +53,7 @@ GameTooltip:HookScript("OnTooltipSetItem", function(tt)
 	elseif AtlasLoot and VP:IsShown(_G["AtlasLoot_GUI-Frame"]) then
 		SetPrice(tt)
 	else -- Chatter, Prat: check for active chat windows
-		local mouseFocus = GetMouseFoc()
+		local mouseFocus = GetMouseFoci()[1]
 		if mouseFocus and mouseFocus:GetObjectType() == "FontString" then
 			for i = 1, FCF_GetNumActiveChatFrames() do
 				if _G["ChatFrame"..i]:IsMouseOver() then
