@@ -1,6 +1,6 @@
 local VP = VendorPrice
 
-if VP.isRetail then
+if VP.mainline then
 	return
 end
 

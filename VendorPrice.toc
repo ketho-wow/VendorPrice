@@ -1,8 +1,9 @@
-## Interface: 11507, 50500
+## Interface: 50503, 20505, 11508
 ## Version: @project-version@
 ## Title: Vendor Price
 ## Notes: Displays the price of an item when not at a vendor
 ## Author: Ketho, Icesythe7
+## IconTexture: 132094
 ## X-Curse-Project-ID: 322091
 ## X-WoWI-ID: 24922
 ## X-Wago-ID: RqGY4EKg
