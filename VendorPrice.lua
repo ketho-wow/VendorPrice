@@ -209,6 +209,7 @@ end)
 local itemButtons = {
 	["AuctionHouseFrame.CommoditiesBuyFrame.BuyDisplay.ItemDisplay.ItemButton"] = true,
 	["AuctionHouseFrame.CommoditiesSellFrame.ItemDisplay.ItemButton"] = true,
+	["AuctionHouseFrame.ItemBuyFrame.ItemDisplay.ItemButton"] = true,
 	["AuctionHouseFrameAuctionsFrame.ItemDisplay.ItemButton"] = true,
 }
 
