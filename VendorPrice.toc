@@ -1,4 +1,4 @@
-## Interface: 50503, 20505, 11508
+## Interface: 50503, 20505, 11509
 ## Version: @project-version@
 ## Title: Vendor Price
 ## Notes: Displays the price of an item when not at a vendor
